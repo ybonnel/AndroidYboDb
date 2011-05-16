@@ -1,0 +1,12 @@
+
+# /
+/.idea
+*.iml
+**/*.iml
+TransportsRennes/gen
+**/.idea
+**/.checkstyle
+**/.pmd
+**/.fbprefs
+**/.settings/*findbugs*
+**/bin
