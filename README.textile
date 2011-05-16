@@ -1,0 +1,9 @@
+h1. AndroidYboDb
+
+Ne trouvant pas de librairie pour pouvoir utiliser un mapping objet sur android pour la base de donnée, j'ai développé ma propre librairie.
+Cette librairie est sans prétention, elle m'a juste rendu service pour mes besoins, ce qui sera peut être votre cas aussi.
+
+h1. License
+
+L'ensemble du code source est sous "GPL v3":http://www.gnu.org/licenses/gpl-3.0.html.
+
