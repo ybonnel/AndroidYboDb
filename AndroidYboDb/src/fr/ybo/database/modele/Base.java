@@ -19,10 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import fr.ybo.database.DataBaseException;
-import fr.ybo.database.R;
 
 /**
  * Represent the database definition.
@@ -36,11 +34,6 @@ public class Base {
 	 * Map use to get a table with the class.
 	 */
 	private final Map<Class<?>, Table> mapClassTable = new HashMap<Class<?>, Table>(10);
-	
-	/**
-	 * The Android context to get the strings.
-	 */
-	private final Context context;
 
 	/**
 	 * Constructor.
@@ -50,11 +43,10 @@ public class Base {
 	 * @throws DataBaseException
 	 *             if there is a problem (may be a development problem).
 	 */
-	public Base(Iterable<Class<?>> classes, Context context) throws DataBaseException {
+	public Base(Iterable<Class<?>> classes) throws DataBaseException {
 		for (Class<?> clazz : classes) {
-			mapClassTable.put(clazz, new Table(clazz, context));
+			mapClassTable.put(clazz, new Table(clazz));
 		}
-		this.context = context;
 	}
 
 	/**
@@ -84,7 +76,7 @@ public class Base {
 	public <Entity> void delete(SQLiteDatabase db, Entity entity) throws DataBaseException {
 		Class<?> clazz = entity.getClass();
 		if (!mapClassTable.containsKey(clazz)) {
-			throw new DataBaseException(context.getString(R.string.classNotDefined, clazz.getSimpleName()));
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
 		}
 		mapClassTable.get(clazz).delete(db, entity);
 	}
@@ -103,7 +95,7 @@ public class Base {
 	 */
 	public <Entity> void deleteAll(SQLiteDatabase db, Class<Entity> clazz) throws DataBaseException {
 		if (!mapClassTable.containsKey(clazz)) {
-			throw new DataBaseException(context.getString(R.string.classNotDefined, clazz.getSimpleName()));
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
 		}
 		mapClassTable.get(clazz).delete(db);
 	}
@@ -131,7 +123,7 @@ public class Base {
 	 */
 	public Table getTable(Class<?> clazz) throws DataBaseException {
 		if (!mapClassTable.containsKey(clazz)) {
-			throw new DataBaseException(context.getString(R.string.classNotDefined, clazz.getSimpleName()));
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
 		}
 		return new Table(mapClassTable.get(clazz));
 	}
@@ -151,7 +143,7 @@ public class Base {
 	public <Entity> void insert(SQLiteDatabase db, Entity entity) throws DataBaseException {
 		Class<?> clazz = entity.getClass();
 		if (!mapClassTable.containsKey(clazz)) {
-			throw new DataBaseException(context.getString(R.string.classNotDefined, clazz.getSimpleName()));
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
 		}
 		mapClassTable.get(clazz).insert(db, entity);
 	}
@@ -177,7 +169,7 @@ public class Base {
 			throws DataBaseException {
 		Class<?> clazz = entite.getClass();
 		if (!mapClassTable.containsKey(clazz)) {
-			throw new DataBaseException(context.getString(R.string.classNotDefined, clazz.getSimpleName()));
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
 		}
 		return mapClassTable.get(clazz).select(db, entite, selection, selectionArgs, orderBy);
 	}

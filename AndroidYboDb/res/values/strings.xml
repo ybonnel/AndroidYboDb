@@ -13,7 +13,4 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-	<string name="multipleResults">Multiple results found for an selectSingle.</string>
-	<string name="classNotDefined">The class %1$s is not defined in the database.</string>
-	<string name="classWithNoTableAnot">The class %1$s don\'t contains the annotation @Table</string>
 </resources>

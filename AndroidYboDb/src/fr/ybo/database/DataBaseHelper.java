@@ -41,11 +41,6 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	 * Use to know if a transaction is open.
 	 */
 	private boolean transactionOpen;
-	
-	/**
-	 * The Android context to get the strings.
-	 */
-	private final Context context;
 
 	/**
 	 * Constructeur.
@@ -64,8 +59,7 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	public DataBaseHelper(Context context, List<Class<?>> classes, String dataBaseName, int dataBaseVersion)
 			throws DataBaseException {
 		super(context, dataBaseName, null, dataBaseVersion);
-		base = new Base(classes, context);
-		this.context = context;
+		base = new Base(classes);
 	}
 
 	/**
@@ -251,7 +245,7 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	public <Entity> Entity selectSingle(Entity entity) throws DataBaseException {
 		List<Entity> entities = select(entity);
 		if (entities.size() > 1) {
-			throw new DataBaseException(context.getString(R.string.multipleResults));
+			throw new DataBaseException("Multiple results found for an selectSingle.");
 		}
 		if (entities.isEmpty()) {
 			return null;

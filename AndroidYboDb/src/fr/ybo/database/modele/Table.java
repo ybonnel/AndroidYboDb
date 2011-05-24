@@ -22,11 +22,9 @@ import java.util.Collection;
 import java.util.List;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import fr.ybo.database.DataBaseException;
-import fr.ybo.database.R;
 
 /**
  * Represent a table in the database definition.
@@ -59,10 +57,10 @@ public class Table {
 	 * @throws DataBaseException
 	 *             if there is a problem (may be a development problem).
 	 */
-	Table(Class<?> clazz, Context context) throws DataBaseException {
+	Table(Class<?> clazz) throws DataBaseException {
 		fr.ybo.database.annotation.Entity table = clazz.getAnnotation(fr.ybo.database.annotation.Entity.class);
 		if (table == null) {
-			throw new DataBaseException(context.getString(R.string.classWithNoTableAnot, clazz.getSimpleName()));
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " don't contains the annotation @Table");
 		}
 		name = table.name();
 		if ("".equals(name)) {
