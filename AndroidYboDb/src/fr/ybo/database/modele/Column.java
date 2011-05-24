@@ -296,7 +296,7 @@ class Column {
 					value = new Date(cursor.getLong(index));
 					break;
 				default:
-					throw new DataBaseException("Type de colonne inconnu [" + type + ']');
+					throw new DataBaseException("Column type unknown [" + type + ']');
 			}
 			setValue(entity, value);
 		}
