@@ -123,18 +123,27 @@ public class Table {
 		Collection<String> indexes = new ArrayList<String>(2);
 		StringBuilder primaryKeys = new StringBuilder();
 		boolean first = true;
+		boolean hasAutoIncrement = false;
 		for (Column colonne : columns) {
 			if (!first) {
 				requete.append(',');
 			}
 			requete.append(colonne.getSqlDefinition());
 			if (colonne.isPrimaryKey()) {
-				if (primaryKeys.length() == 0) {
-					primaryKeys.append(",PRIMARY KEY (");
-				} else {
-					primaryKeys.append(',');
+				if (hasAutoIncrement) {
+					throw new DataBaseException("Only one primary key with an autoIncrement by table");
 				}
-				primaryKeys.append(colonne.getName());
+				if (colonne.isAutoIncrement()) {
+					requete.append(" PRIMARY KEY AUTOINCREMENT");
+					hasAutoIncrement = true;
+				} else {
+					if (primaryKeys.length() == 0) {
+						primaryKeys.append(",PRIMARY KEY (");
+					} else {
+						primaryKeys.append(',');
+					}
+					primaryKeys.append(colonne.getName());
+				}
 			}
 			if (colonne.isIndexed()) {
 				indexes.add(colonne.getIndexSqlDef());
@@ -142,6 +151,9 @@ public class Table {
 			first = false;
 		}
 		if (primaryKeys.length() > 0) {
+			if (hasAutoIncrement) {
+				throw new DataBaseException("Only one primary key with an autoIncrement by table");
+			}
 			requete.append(primaryKeys.toString());
 			requete.append(')');
 		}

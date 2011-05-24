@@ -47,7 +47,7 @@ class Column {
 	/**
 	 * Indicate if this column is a primary key.
 	 */
-	private final boolean primaryKey;
+	private final PrimaryKey primaryKey;
 	/**
 	 * Index.
 	 */
@@ -85,7 +85,7 @@ class Column {
 		this.tableName = tableName;
 		fr.ybo.database.annotation.Column colonne = field.getAnnotation(fr.ybo.database.annotation.Column.class);
 		type = colonne.type();
-		primaryKey = field.getAnnotation(PrimaryKey.class) != null;
+		primaryKey = field.getAnnotation(PrimaryKey.class);
 		name = "".equals(colonne.name()) ? field.getName() : colonne.name();
 		indexed = field.getAnnotation(Indexed.class);
 	}
@@ -260,7 +260,14 @@ class Column {
 	 * @return true if the column is a primary key.
 	 */
 	boolean isPrimaryKey() {
-		return primaryKey;
+		return primaryKey != null;
+	}
+
+	/**
+	 * @return true if the column is a primary key and autoIncrement.
+	 */
+	boolean isAutoIncrement() {
+		return primaryKey != null && primaryKey.autoIncrement();
 	}
 
 	/**
