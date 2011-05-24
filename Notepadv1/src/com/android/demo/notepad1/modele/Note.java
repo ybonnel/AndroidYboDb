@@ -12,12 +12,10 @@ public class Note {
 	@Column(type = TypeColumn.INTEGER)
 	public Integer id;
 	
-	// FIXME add not null feature.
-	@Column
+	@Column( notNull = true )
 	public String title;
 
-	// FIXME add not null feature.
-	@Column
+	@Column( notNull = true )
 	public String body;
 
 }
