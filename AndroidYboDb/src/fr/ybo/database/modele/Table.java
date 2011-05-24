@@ -134,7 +134,7 @@ public class Table {
 					throw new DataBaseException("Only one primary key with an autoIncrement by table");
 				}
 				if (colonne.isAutoIncrement()) {
-					requete.append(" PRIMARY KEY AUTOINCREMENT");
+					requete.append(" PRIMARY KEY AUTOINCREMENT ");
 					hasAutoIncrement = true;
 				} else {
 					if (primaryKeys.length() == 0) {
@@ -144,6 +144,9 @@ public class Table {
 					}
 					primaryKeys.append(colonne.getName());
 				}
+			}
+			if (colonne.isNotNull()) {
+				requete.append("NOT NULL");
 			}
 			if (colonne.isIndexed()) {
 				indexes.add(colonne.getIndexSqlDef());

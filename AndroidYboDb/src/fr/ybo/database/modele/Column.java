@@ -56,6 +56,11 @@ class Column {
 	 * Table name.
 	 */
 	private String tableName;
+	
+	/**
+	 * True if the column is not null.
+	 */
+	private final boolean notNull;
 
 	/**
 	 * Copy constructor.
@@ -70,6 +75,7 @@ class Column {
 		primaryKey = column.primaryKey;
 		indexed = column.indexed;
 		tableName = column.tableName;
+		notNull = column.notNull;
 	}
 
 	/**
@@ -88,6 +94,7 @@ class Column {
 		primaryKey = field.getAnnotation(PrimaryKey.class);
 		name = "".equals(colonne.name()) ? field.getName() : colonne.name();
 		indexed = field.getAnnotation(Indexed.class);
+		notNull = colonne.notNull();
 	}
 
 	/**
@@ -254,6 +261,13 @@ class Column {
 	 */
 	boolean isIndexed() {
 		return indexed != null;
+	}
+
+	/**
+	 * @return true if the column is not null.
+	 */
+	boolean isNotNull() {
+		return notNull;
 	}
 
 	/**

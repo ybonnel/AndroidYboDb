@@ -51,5 +51,10 @@ public @interface Column {
 	 * Type of the column. TEXT by default.
 	 */
 	Column.TypeColumn type() default Column.TypeColumn.TEXT;
+	
+	/**
+	 * True if the column must be not null. FALSE by default.
+	 */
+	boolean notNull() default false;
 
 }
