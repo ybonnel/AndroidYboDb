@@ -18,4 +18,11 @@ public class Note {
 	@Column( notNull = true )
 	public String body;
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Note [title=" + this.title + ", body=" + this.body + "]";
+	}
 }
