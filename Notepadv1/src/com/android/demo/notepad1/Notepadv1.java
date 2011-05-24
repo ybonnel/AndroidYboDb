@@ -21,6 +21,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * This is the adaptation of the notepad exemple of android, to show how to use AndroidYboDb.
+ * original tutotial : http://developer.android.com/resources/tutorials/notepad/index.html
+ * @author ybonnel
+ *
+ */
 public class Notepadv1 extends Activity {
 
     /** Called when the activity is first created. */
