@@ -120,7 +120,8 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	 * @return the cursor.
 	 */
 	public Cursor executeSelectQuery(String query, List<String> selectionArgs) {
-		return getReadableDatabase().rawQuery(query, selectionArgs == null ? null : selectionArgs.toArray(new String[selectionArgs.size()]));
+		return getReadableDatabase().rawQuery(query,
+				selectionArgs == null ? null : selectionArgs.toArray(new String[selectionArgs.size()]));
 	}
 
 	/**
@@ -185,8 +186,8 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 				}
 			}
 		} catch (Exception exception) {
-			Cursor cursor =
-					db.query("sqlite_master", Collections.singleton("name").toArray(new String[1]), " type = 'table'", null, null, null, null);
+			Cursor cursor = db.query("sqlite_master", Collections.singleton("name").toArray(new String[1]),
+					" type = 'table'", null, null, null, null);
 			while (cursor.moveToNext()) {
 				String tableName = cursor.getString(0);
 				if (!"android_metadata".equals(tableName)) {
@@ -252,9 +253,20 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 		}
 		return entities.get(0);
 	}
-	
+
+	/**
+	 * Update an entity.
+	 * 
+	 * @param <Entity>
+	 *            entity
+	 * @param entity
+	 *            the entity to update.
+	 * @throws DataBaseException
+	 *             if there is a problem (may be a development problem). of
+	 *             multiple results.
+	 */
 	public <Entity> void update(Entity entity) throws DataBaseException {
-		// FIXME à coder.
+		base.update(getWritableDatabase(), entity);
 	}
 
 }

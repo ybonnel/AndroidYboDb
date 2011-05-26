@@ -62,6 +62,26 @@ public class Base {
 	}
 
 	/**
+	 * Update an entity.
+	 * 
+	 * @param <Entity>
+	 *            entity.
+	 * @param db
+	 *            the SQLite database.
+	 * @param entity
+	 *            entity to update.
+	 * @throws DataBaseException
+	 *             if there is a problem (may be a development problem).
+	 */
+	public <Entity> void update(SQLiteDatabase db, Entity entity) throws DataBaseException {
+		Class<?> clazz = entity.getClass();
+		if (!mapClassTable.containsKey(clazz)) {
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
+		}
+		mapClassTable.get(clazz).update(db, entity);
+	}
+
+	/**
 	 * Delete an entity.
 	 * 
 	 * @param <Entity>

@@ -195,6 +195,29 @@ public class Table {
 	}
 
 	/**
+	 * Update an entity.
+	 * 
+	 * @param <Entity>
+	 *            entity.
+	 * @param db
+	 *            the SQLite database.
+	 * @param entity
+	 *            the entity to update.
+	 * @throws DataBaseException
+	 *             if there is a problem (may be a development problem).
+	 */
+	<Entity> void update(SQLiteDatabase db, Entity entity) throws DataBaseException {
+		List<String> where = generatePrimaryKeyWhere(entity);
+		ContentValues values = new ContentValues();
+		for (Column colonne : columns) {
+			if (!colonne.isPrimaryKey()) {
+				colonne.addValue(values, entity);
+			}
+		}
+		db.update(name, values, getPrimaryKeyWhere(), where.toArray(new String[where.size()]));
+	}
+
+	/**
 	 * Drop the table.
 	 * 
 	 * @param db
@@ -271,6 +294,49 @@ public class Table {
 	}
 
 	/**
+	 * True if the table has an auto-increment column.
+	 */
+	private Boolean autoIncrement = null;
+	/**
+	 * If the table has an auto-increment column, this is the one.
+	 */
+	private Column autoIncrementColumn = null;
+
+	/**
+	 * 
+	 * @return true is the table has an auto-increment column.
+	 */
+	private boolean hasAutoIncrement() {
+		if (autoIncrement == null) {
+			autoIncrement = false;
+			for (Column column : columns) {
+				if (column.isAutoIncrement()) {
+					autoIncrement = true;
+					autoIncrementColumn = column;
+					break;
+				}
+			}
+		}
+		return autoIncrement;
+	}
+
+	/**
+	 * Set the rowId to the auto-increment field if it exists.
+	 * 
+	 * @param <Entity>
+	 *            entity.
+	 * @param entity
+	 *            the entity which must be set the rowId.
+	 * @param rowId
+	 *            the rowId.
+	 */
+	private <Entity> void setAutoIncrementColumn(Entity entity, long rowId) {
+		if (hasAutoIncrement()) {
+			autoIncrementColumn.setValue(entity, rowId);
+		}
+	}
+
+	/**
 	 * @return the where clause with primary keys.
 	 */
 	private String getPrimaryKeyWhere() {
@@ -302,15 +368,18 @@ public class Table {
 	 *            the SQLite database.
 	 * @param entity
 	 *            the entity to insert.
+	 * @return
 	 * @throws DataBaseException
 	 *             if there is a problem (may be a development problem).
 	 */
-	public <Entity> void insert(SQLiteDatabase db, Entity entity) throws DataBaseException {
+	public <Entity> Entity insert(SQLiteDatabase db, Entity entity) throws DataBaseException {
 		ContentValues values = new ContentValues();
 		for (Column colonne : columns) {
 			colonne.addValue(values, entity);
 		}
-		db.insertOrThrow(name, null, values);
+		long rowId = db.insertOrThrow(name, null, values);
+		setAutoIncrementColumn(entity, rowId);
+		return entity;
 	}
 
 	/**

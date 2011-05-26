@@ -345,7 +345,7 @@ class Column {
 	 * @throws DataBaseException
 	 *             if there is a problem (may be a development problem).
 	 */
-	private <Entity> void setValue(Entity entity, Object value) throws DataBaseException {
+	protected <Entity> void setValue(Entity entity, Object value) throws DataBaseException {
 		try {
 			boolean isAccessible = field.isAccessible();
 			field.setAccessible(true);
