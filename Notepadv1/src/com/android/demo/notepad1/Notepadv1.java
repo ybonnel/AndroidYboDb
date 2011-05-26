@@ -39,15 +39,12 @@ import com.android.demo.notepad1.modele.Note;
 public class Notepadv1 extends ListActivity {
     private static final int ACTIVITY_CREATE=0;
     private static final int ACTIVITY_EDIT=1;
-	
-	private NotesDbAdapter mDbHelper;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notepad_list);
-        mDbHelper = new NotesDbAdapter(this);
         fillData();
         registerForContextMenu(getListView());
     }
@@ -83,7 +80,7 @@ public class Notepadv1 extends ListActivity {
     private void fillData() {
         // Now create an array adapter and set it to display using our row
     	// FIXME add selectAll feature.
-    	notesAdapter = new NoteAdapter(this, mDbHelper.select(new Note()));
+    	notesAdapter = new NoteAdapter(this, NoteApplication.getNotesDbAdapter().select(new Note()));
         setListAdapter(notesAdapter);
     }
 
@@ -99,7 +96,7 @@ public class Notepadv1 extends ListActivity {
 	    switch(item.getItemId()) {
 	    case DELETE_ID:
 	        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-	        mDbHelper.delete(notesAdapter.getItem(info.position));
+	        NoteApplication.getNotesDbAdapter().delete(notesAdapter.getItem(info.position));
 	        fillData();
 	        return true;
 	    }
@@ -123,14 +120,14 @@ public class Notepadv1 extends ListActivity {
 			switch (requestCode) {
 			case ACTIVITY_CREATE:
 				note = (Note) extras.getSerializable("note");
-				mDbHelper.insert(note);
+				NoteApplication.getNotesDbAdapter().insert(note);
 				fillData();
 				break;
 			case ACTIVITY_EDIT:
 				note = (Note) extras.getSerializable("note");
 				// FIXME add an update feature.
-				mDbHelper.delete(note);
-				mDbHelper.insert(note);
+				NoteApplication.getNotesDbAdapter().delete(note);
+				NoteApplication.getNotesDbAdapter().insert(note);
 				fillData();
 				break;
 			}
