@@ -200,6 +200,21 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * Select all entities of a table represent by the clazz.
+	 * 
+	 * @param <Entity>
+	 *            entity.
+	 * @param clazz
+	 *            the clazz.
+	 * @return all entities found.
+	 * @throws DataBaseException
+	 *             if there is a problem (may be a development problem).
+	 */
+	public <Entity> List<Entity> selectAll(Class<Entity> clazz) throws DataBaseException {
+		return base.selectAll(getReadableDatabase(), clazz);
+	}
+
+	/**
 	 * Select from an exemple entity.
 	 * 
 	 * @param <Entity>

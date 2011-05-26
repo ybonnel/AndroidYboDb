@@ -183,7 +183,9 @@ public class Base {
 	 *            args of the selection.
 	 * @param orderBy
 	 *            orderBy condition.
-	 * @return entities. if there is a problem (may be a development problem).
+	 * @return entities.
+	 * @throws DataBaseException
+	 *             if there is a problem (may be a development problem).
 	 */
 	public <Entite> List<Entite> select(SQLiteDatabase db, Entite entite, String selection, Collection<String> selectionArgs, String orderBy)
 			throws DataBaseException {
@@ -192,6 +194,26 @@ public class Base {
 			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
 		}
 		return mapClassTable.get(clazz).select(db, entite, selection, selectionArgs, orderBy);
+	}
+
+	/**
+	 * Select all entities.
+	 * 
+	 * @param <Entity>
+	 *            entity.
+	 * @param db
+	 *            databse.
+	 * @param clazz
+	 *            the class of the entity to get.
+	 * @return all entities of the clazz.
+	 * @throws DataBaseException
+	 *             if there is a problem (may be a development problem).
+	 */
+	public <Entity> List<Entity> selectAll(SQLiteDatabase db, Class<Entity> clazz) throws DataBaseException {
+		if (!mapClassTable.containsKey(clazz)) {
+			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
+		}
+		return mapClassTable.get(clazz).select(db, null, null, null, null);
 	}
 
 }

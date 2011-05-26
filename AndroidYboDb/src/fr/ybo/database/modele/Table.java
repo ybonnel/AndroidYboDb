@@ -404,11 +404,13 @@ public class Table {
 	@SuppressWarnings("unchecked")
 	<Entite> List<Entite> select(SQLiteDatabase db, Entite entite, String selectionPlus,
 			Collection<String> selectArgsPlus, String orderBy) throws DataBaseException {
-		List<Entite> entites = new ArrayList<Entite>(50);
+		List<Entite> entites = new ArrayList<Entite>();
 		StringBuilder whereClause = new StringBuilder();
 		List<String> selectionArgsList = new ArrayList<String>(selectArgsPlus == null ? 0 : selectArgsPlus.size());
-		for (Column colonne : columns) {
-			colonne.appendWhereIfNotNull(whereClause, entite, selectionArgsList);
+		if (entite != null) {
+			for (Column colonne : columns) {
+				colonne.appendWhereIfNotNull(whereClause, entite, selectionArgsList);
+			}
 		}
 		if (selectionPlus != null) {
 			whereClause.append(" AND (");
