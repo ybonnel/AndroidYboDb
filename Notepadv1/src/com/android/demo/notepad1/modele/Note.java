@@ -14,7 +14,7 @@ public class Note implements Serializable {
 
 	@PrimaryKey( autoIncrement = true )
 	@Column(type = TypeColumn.INTEGER)
-	public Integer id;
+	public Long id;
 	
 	@Column( notNull = true )
 	public String title;

@@ -45,7 +45,7 @@ public class NoteEdit extends Activity {
 	private void populateFields() {
 	    if (currentNote != null) {
 	        mTitleText.setText(currentNote.title);
-	        mBodyText.setText(currentNote.title);
+			mBodyText.setText(currentNote.body);
 	    }
 	}
 	
@@ -71,7 +71,9 @@ public class NoteEdit extends Activity {
 	private void saveState() {
         String title = mTitleText.getText().toString();
         String body = mBodyText.getText().toString();
-
+		if (currentNote == null) {
+			currentNote = new Note();
+		}
         currentNote.title = title;
         currentNote.body = body;
 		if (currentNote.id == null) {
