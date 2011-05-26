@@ -143,8 +143,8 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	 * @throws DataBaseException
 	 *             if there is a problem (may be a development problem).
 	 */
-	public <Entity> void insert(Entity entity) throws DataBaseException {
-		base.insert(getWritableDatabase(), entity);
+	public <Entity> Entity insert(Entity entity) throws DataBaseException {
+		return base.insert(getWritableDatabase(), entity);
 	}
 
 	/**

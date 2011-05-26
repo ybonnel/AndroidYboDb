@@ -160,12 +160,12 @@ public class Base {
 	 * @throws DataBaseException
 	 *             if there is a problem (may be a development problem).
 	 */
-	public <Entity> void insert(SQLiteDatabase db, Entity entity) throws DataBaseException {
+	public <Entity> Entity insert(SQLiteDatabase db, Entity entity) throws DataBaseException {
 		Class<?> clazz = entity.getClass();
 		if (!mapClassTable.containsKey(clazz)) {
 			throw new DataBaseException("The class " + clazz.getSimpleName() + " is not defined in the database.");
 		}
-		mapClassTable.get(clazz).insert(db, entity);
+		return mapClassTable.get(clazz).insert(db, entity);
 	}
 
 	/**
