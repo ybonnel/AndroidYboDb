@@ -79,8 +79,7 @@ public class Notepadv1 extends ListActivity {
     
     private void fillData() {
         // Now create an array adapter and set it to display using our row
-    	// FIXME add selectAll feature.
-    	notesAdapter = new NoteAdapter(this, NoteApplication.getNotesDbAdapter().select(new Note()));
+		notesAdapter = new NoteAdapter(this, NoteApplication.getNotesDbAdapter().selectAll(Note.class));
         setListAdapter(notesAdapter);
     }
 
@@ -114,24 +113,6 @@ public class Notepadv1 extends ListActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     	super.onActivityResult(requestCode, resultCode, intent);
-		if (resultCode == RESULT_OK) {
-			Bundle extras = intent.getExtras();
-			Note note;
-			switch (requestCode) {
-			case ACTIVITY_CREATE:
-				note = (Note) extras.getSerializable("note");
-				NoteApplication.getNotesDbAdapter().insert(note);
-				fillData();
-				break;
-			case ACTIVITY_EDIT:
-				note = (Note) extras.getSerializable("note");
-				// FIXME add an update feature.
-				NoteApplication.getNotesDbAdapter().delete(note);
-				NoteApplication.getNotesDbAdapter().insert(note);
-				fillData();
-				break;
-			}
-		}
-        
+		fillData();
     }
 }

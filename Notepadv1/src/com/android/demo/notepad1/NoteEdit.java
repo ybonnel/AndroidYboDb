@@ -74,9 +74,10 @@ public class NoteEdit extends Activity {
 
         currentNote.title = title;
         currentNote.body = body;
-        
-		// FIXME add an update feature.
-        NoteApplication.getNotesDbAdapter().delete(currentNote);
-        NoteApplication.getNotesDbAdapter().insert(currentNote);
+		if (currentNote.id == null) {
+			currentNote = NoteApplication.getNotesDbAdapter().insert(currentNote);
+		} else {
+			NoteApplication.getNotesDbAdapter().update(currentNote);
+		}
     }
 }
