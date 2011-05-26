@@ -252,5 +252,9 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 		}
 		return entities.get(0);
 	}
+	
+	public <Entity> void update(Entity entity) throws DataBaseException {
+		// FIXME à coder.
+	}
 
 }
