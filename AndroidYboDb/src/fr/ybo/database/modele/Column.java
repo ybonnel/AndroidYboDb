@@ -92,6 +92,9 @@ class Column {
 		fr.ybo.database.annotation.Column colonne = field.getAnnotation(fr.ybo.database.annotation.Column.class);
 		type = colonne.type();
 		primaryKey = field.getAnnotation(PrimaryKey.class);
+		if (isAutoIncrement() && !field.getType().equals(Long.class)) {
+			throw new DataBaseException("An autoIncrement column is not a Long for the table " + tableName);
+		}
 		name = "".equals(colonne.name()) ? field.getName() : colonne.name();
 		indexed = field.getAnnotation(Indexed.class);
 		notNull = colonne.notNull();
@@ -302,7 +305,11 @@ class Column {
 			Object value;
 			switch (type) {
 				case INTEGER:
-					value = cursor.getInt(index);
+					if (field.getType().equals(Long.class)) {
+						value = cursor.getLong(index);
+					} else {
+						value = cursor.getInt(index);
+					}
 					break;
 				case NUMERIC:
 					value = cursor.getDouble(index);
