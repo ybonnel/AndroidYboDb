@@ -269,7 +269,7 @@ public class Table {
 	 * 
 	 * @return the table name.
 	 */
-	String getName() {
+	public String getName() {
 		return name;
 	}
 
