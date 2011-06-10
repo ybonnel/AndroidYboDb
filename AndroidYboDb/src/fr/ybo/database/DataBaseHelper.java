@@ -103,8 +103,10 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	 */
 	public void endTransaction() {
 		if (transactionOpen) {
-			getWritableDatabase().setTransactionSuccessful();
-			getWritableDatabase().endTransaction();
+			if (getWritableDatabase().inTransaction()) {
+				getWritableDatabase().setTransactionSuccessful();
+				getWritableDatabase().endTransaction();
+			}
 		}
 		transactionOpen = false;
 	}
