@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Column {
 	enum TypeColumn {
-		INTEGER("INTEGER"), TEXT("TEXT"), NUMERIC("NUMERIC"), BOOLEAN("INTEGER(1)"), DATE("INTEGER");
+		INTEGER("INTEGER"), TEXT("TEXT"), NUMERIC("NUMERIC"), BOOLEAN("INTEGER(1)"), DATE("INTEGER"), LIST_TEXT("TEXT");
 
 		private final String sqlType;
 

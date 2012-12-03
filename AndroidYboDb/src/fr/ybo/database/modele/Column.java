@@ -17,8 +17,10 @@
 package fr.ybo.database.modele;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -131,6 +133,19 @@ class Column {
 				case NUMERIC:
 					values.put(name, (Double) valeur);
 					break;
+                case LIST_TEXT:
+                    List<String> listValeurs = (List<String>) valeur;
+                    StringBuilder builder = new StringBuilder();
+                    boolean first = true;
+                    for (String uneValeur : listValeurs) {
+                        if (!first) {
+                            builder.append(';');
+                        }
+                        builder.append(uneValeur);
+                        first = false;
+                    }
+                    values.put(name, builder.toString());
+                    break;
 			}
 		}
 	}
@@ -255,6 +270,19 @@ class Column {
 			case TEXT:
 				retour = (String) valeur;
 				break;
+            case LIST_TEXT:
+                List<String> listValeurs = (List<String>) valeur;
+                StringBuilder builder = new StringBuilder();
+                boolean first = true;
+                for (String uneValeur : listValeurs) {
+                    if (!first) {
+                        builder.append(';');
+                    }
+                    builder.append(uneValeur);
+                    first = false;
+                }
+                retour = builder.toString();
+                break;
 			default:
 				throw new DataBaseException("Column type unknown [" + type + ']');
 		}
@@ -325,6 +353,17 @@ class Column {
 				case DATE:
 					value = new Date(cursor.getLong(index));
 					break;
+                case LIST_TEXT:
+                    String valueInCsv = cursor.getString(index);
+                    if (valueInCsv == null) {
+                        value = null;
+                    } else {
+                        value = new ArrayList<String>();
+                        for (String oneValue : valueInCsv.split(";")) {
+                            ((List<String>)value).add(oneValue);
+                        }
+                    }
+                    break;
 				default:
 					throw new DataBaseException("Column type unknown [" + type + ']');
 			}
